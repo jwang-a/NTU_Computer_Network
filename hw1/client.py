@@ -1,3 +1,5 @@
+###Simple Bot Client that works on application layer
+
 import socket
 import base64
 import random as rand
