@@ -22,15 +22,15 @@ def printlog(action,dtype='',serial='',additional=''):
 
 def pack_tcp(seq_num,ack_num,fin,payload):
     check = [payload[i] for i in range(len(payload))]
-    checksum = ((sum(check[0::2])+(sum(check[1::2])<<8))&65536)^65536
+    checksum = ((sum(check[0::2])+(sum(check[1::2])<<8))&65535)^65535
     segment = pickle.dumps([seq_num,ack_num,fin,checksum,payload])
     return segment
 
 def unpack_tcp(msg):
     segment = pickle.loads(msg)
     check = [segment[4][i] for i in range(len(segment[4]))]
-    check = ((sum(check[0::2])+(sum(check[1::2])<<8))&65536)
-    if check|segment[3] != 65536:
+    check = ((sum(check[0::2])+(sum(check[1::2])<<8))&65535)
+    if check|segment[3] != 65535:
         segment[1] = 'bad'
     return segment
     
